@@ -11,7 +11,7 @@ highlight = PatternFill(patternType='solid', fgColor=colors.Color(rgb='00FF55'))
 
 # Get each unique order and their shipping costs.
 def getCustomerInfo(ws):
-    for row in range(2, 50):
+    for row in range(2, ws.max_row):
         for col in range(10, 11):
             char = get_column_letter(col)
             if ws[char + str(row)].value != None:
@@ -32,21 +32,19 @@ def insertRows(ws):
             ws.insert_rows(customer_row_nums[i] + difference)
             ws['A' + str(customer_row_nums[i] + difference)].value = ws['A' + str(customer_row_nums[i] + difference - 1)].value
             ws['S' + str(customer_row_nums[i] + difference)].value = shipping_costs[i - 1]
-            ws['U' + str(customer_row_nums[i] + difference)].value = 'Shipping:SS'
+            ws['R' + str(customer_row_nums[i] + difference)].value = 'Shipping'
             ws['W' + str(customer_row_nums[i] + difference)].value = 'TRUE'
             customer_row_nums[i] = customer_row_nums[i] + difference
             difference = i
 
         customer_row_nums.pop(0)
 
-        for row in range(1, ws.max_row):
-            if ws['A' + str(row)].value == None:
-                ws['A' + str(row)].value = ws['A' + str(row - 1)].value
-                ws['S' + str(row)].value = shipping_costs[-1]
-                ws['U' + str(row)].value = 'Shipping:SS'
-                ws['W' + str(row)].value = 'TRUE'
-                customer_row_nums.append(row)
-                break
+        finalRow = ws.append({'A': ws['A' + str(ws.max_row)].value,
+                            'S': shipping_costs[-1],
+                            'R': 'Shipping',
+                            'W': 'TRUE'})
+
+        customer_row_nums.append(ws.max_row)
 
         for row in customer_row_nums:
             for col in range(1, (ws.max_column + 1)):
