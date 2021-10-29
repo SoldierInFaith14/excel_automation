@@ -102,7 +102,7 @@ def main():
 
             try:
                 wb.save("MOD_" + excel_file)
-                print("*** Success! ***\n")
+                print("-> Success! Saved as MOD_" + excel_file + "\n")
 
             except WorkbookAlreadySaved as e:
                 print("Workbook Already Saved\n")
