@@ -95,6 +95,11 @@ def main():
             print("\n-> Loading Excel File...")
             wb = load_workbook(excel_file)
             ws = wb.active
+
+            # Excel format check, if first row is empty, delete row.
+            if ws['A' + str(1)].value == None:
+                ws.delete_rows(1)
+
             orderInfo(ws)
             formatDate(ws)
             insertRows(ws)
