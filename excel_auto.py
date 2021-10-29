@@ -56,10 +56,10 @@ def insertRows(ws):
 
         customer_row_nums.pop(0)
 
-        finalRow = ws.append({'A': ws['A' + str(ws.max_row)].value,
-                            'S': shipping_costs[-1],
-                            'R': 'Shipping:SS',
-                            'W': 'TRUE'})
+        ws.append({'A': ws['A' + str(ws.max_row)].value,
+                'S': shipping_costs[-1],
+                'R': 'Shipping:SS',
+                'W': 'TRUE'})
 
         customer_row_nums.append(ws.max_row)
 
