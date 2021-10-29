@@ -24,8 +24,6 @@ def formatOrderInfo(ws):
                     ws[char + str(row)].value = None
                     ws[char + str(row)].value = cell_date
                     ws[char + str(row)].fill = highlight_blue
-                else:
-                    continue
 
         except TypeError:
             pass
