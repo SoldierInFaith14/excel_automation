@@ -10,30 +10,42 @@ customer_row_nums = []
 highlight_green = PatternFill(patternType='solid', fgColor=colors.Color(rgb='00FF55'))
 highlight_blue = PatternFill(patternType='solid', fgColor=colors.Color(rgb='0dacfa'))
 
-# Format date and get order shipping costs.
-def formatOrderInfo(ws):
+# Get order shipping costs and track unique orders.
+def orderInfo(ws):
     for row in range(2, ws.max_row):
-        try:
-            # Format date to mm/dd/yyyy
-            for col in range(4, 5):
-                char = get_column_letter(col)
-                if ws[char + str(row)].value != None:
-                    cell_date = (ws[char + str(row)].value[0:10:1])
-                    year, month, day = cell_date.split('-')
-                    cell_date = month + "/" + day + "/" + year
-                    ws[char + str(row)].value = None
-                    ws[char + str(row)].value = cell_date
-                    ws[char + str(row)].fill = highlight_blue
-
-        except TypeError:
-            pass
-
-        # Getting shipping costs
         for col in range(10, 11):
             char = get_column_letter(col)
             if ws[char + str(row)].value != None:
                 shipping_costs.append(ws[char + str(row)].value)
                 customer_row_nums.append(row)
+
+
+# Format date to mm/dd/yyyy
+def formatDate(ws):
+    for row in customer_row_nums:
+        try:
+            # Enter date in cell if empty
+            if ws['D' + str(row)].value == None:
+                for col in range(16, 17):
+                    char = get_column_letter(col)
+                    cell_date = (ws[char + str(row)].value[0:10:1])
+                    year, month, day = cell_date.split('-')
+                    cell_date = month + "/" + day + "/" + year
+                    ws['D' + str(row)].value = cell_date
+                    ws['D' + str(row)].fill = highlight_blue
+            else:
+                for col in range(4, 5):
+                    char = get_column_letter(col)
+                    if ws[char + str(row)].value != None:
+                        cell_date = (ws[char + str(row)].value[0:10:1])
+                        year, month, day = cell_date.split('-')
+                        cell_date = month + "/" + day + "/" + year
+                        ws[char + str(row)].value = None
+                        ws[char + str(row)].value = cell_date
+                        ws[char + str(row)].fill = highlight_blue
+
+        except TypeError:
+            pass
 
 
 '''
@@ -75,26 +87,34 @@ def insertRows(ws):
 
 def main():
 
+    print("*** Enter file or type 'quit' to exit program ***")
     excel_file = input("Provide excel file or filepath (ex. test.xlsx): ")
 
-    try:
-        print("\n-> Loading Excel File...")
-        wb = load_workbook(excel_file)
-        ws = wb.active
-        formatOrderInfo(ws)
-        insertRows(ws)
-        print("-> Modifying File...")
-
+    while excel_file != 'quit':
         try:
-            wb.save("MOD_" + excel_file)
-            print("*** Success! ***\n")
+            print("\n-> Loading Excel File...")
+            wb = load_workbook(excel_file)
+            ws = wb.active
+            orderInfo(ws)
+            formatDate(ws)
+            insertRows(ws)
+            print("-> Modifying File...")
 
-        except WorkbookAlreadySaved as e:
-            print("Workbook Already Saved\n")
+            try:
+                wb.save("MOD_" + excel_file)
+                print("*** Success! ***\n")
 
-    except:
-        print("\nERROR: Failed to load Excel File! Make sure the filename/filepath is correct.")
-        print("Please re-run the script\n")
+            except WorkbookAlreadySaved as e:
+                print("Workbook Already Saved\n")
+
+        except:
+            print("\nERROR: Failed to load Excel File! Make sure the filename/filepath is correct.")
+            print("Please re-run the script\n")
+
+        print("*** Enter file or type 'quit' to quit ***")
+        excel_file = input("Provide excel file or filepath (ex. test.xlsx): ")
+
+
 
 
 if __name__ == '__main__':
