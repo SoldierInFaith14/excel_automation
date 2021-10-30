@@ -113,8 +113,7 @@ def main():
                 print("Workbook Already Saved\n")
 
         except:
-            print("\nERROR: Failed to load Excel File! Make sure the filename/filepath is correct.")
-            print("Please re-run the script\n")
+            print("\nERROR: Failed to load Excel File! Make sure the filename/filepath is correct. \n")
 
         print("*** Enter file or type 'quit' to quit ***")
         excel_file = input("Provide excel file or filepath (ex. test.xlsx): ")
