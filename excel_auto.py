@@ -61,7 +61,7 @@ def insertRows(ws):
             ws.insert_rows(customer_row_nums[i] + difference)
             ws['A' + str(customer_row_nums[i] + difference)].value = ws['A' + str(customer_row_nums[i] + difference - 1)].value
             ws['S' + str(customer_row_nums[i] + difference)].value = shipping_costs[i - 1]
-            ws['R' + str(customer_row_nums[i] + difference)].value = 'Shipping'
+            ws['R' + str(customer_row_nums[i] + difference)].value = 'Shipping:SS'
             ws['W' + str(customer_row_nums[i] + difference)].value = 'TRUE'
             customer_row_nums[i] = customer_row_nums[i] + difference
             difference = i
