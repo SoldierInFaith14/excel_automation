@@ -12,7 +12,7 @@ highlight_blue = PatternFill(patternType='solid', fgColor=colors.Color(rgb='0dac
 
 # Get order shipping costs and track unique orders.
 def orderInfo(ws):
-    for row in range(2, ws.max_row):
+    for row in range(2, ws.max_row + 1):
         for col in range(10, 11):
             char = get_column_letter(col)
             if ws[char + str(row)].value != None:
