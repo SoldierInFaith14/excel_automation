@@ -96,8 +96,13 @@ def main():
             wb = load_workbook(excel_file)
             ws = wb.active
 
+<<<<<<< HEAD
             # Excel format check, if first cell contains 'Name', don't delete row.
             if ws['A' + str(1)].value != "Name":
+=======
+            # Excel format check, if first row is empty, delete row.
+            if ws['A' + str(1)].value == None:
+>>>>>>> da4269e45c2f8d3d5f2fa7417541cfa2d9cec55d
                 ws.delete_rows(1)
 
             orderInfo(ws)
