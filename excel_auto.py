@@ -96,8 +96,9 @@ def main():
             wb = load_workbook(excel_file)
             ws = wb.active
 
-            # Excel format check, if first cell doesn't contain 'Name', delete row.
-            if ws['A' + str(1)].value != "Name":
+            # Excel format check, if cell 'A1' does not contain 'Name', delete row.
+            if ws["A" + str(1)].value != "Name":
+                ws.unmerge_cells('A1:BU1')
                 ws.delete_rows(1)
 
             orderInfo(ws)
