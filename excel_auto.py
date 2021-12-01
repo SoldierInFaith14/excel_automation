@@ -103,10 +103,10 @@ def main():
             else:
                 pass
 
+            print("-> Modifying File...")
             orderInfo(ws)
             formatDate(ws)
             insertRows(ws)
-            print("-> Modifying File...")
 
             try:
                 wb.save("MOD_" + excel_file)
