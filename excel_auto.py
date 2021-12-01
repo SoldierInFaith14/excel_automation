@@ -96,7 +96,7 @@ def main():
             wb = load_workbook(excel_file)
             ws = wb.active
 
-            # Excel format check, if first cell contains 'Name', don't delete row.
+            # Excel format check, if first cell doesn't contain 'Name', delete row
             if ws['A' + str(1)].value != "Name":
                 ws.delete_rows(1)
 
