@@ -9,6 +9,7 @@ shipping_costs = []
 customer_row_nums = []
 highlight_green = PatternFill(patternType='solid', fgColor=colors.Color(rgb='00FF55'))
 highlight_blue = PatternFill(patternType='solid', fgColor=colors.Color(rgb='0dacfa'))
+highlight_amber = PatternFill(patternType='solid', fgColor=colors.Color(rgb='ffbf00'))
 
 # Get order shipping costs and track unique orders.
 def orderInfo(ws):
@@ -46,6 +47,27 @@ def formatDate(ws):
 
         except TypeError:
             pass
+
+# Format zip code values
+def formatZip(ws):
+    for row in customer_row_nums:
+        for col in range(31, 32):
+            char = get_column_letter(col)
+            if ws[char + str(row)].value != None:
+                if ws[char + str(row)].value[0] == "'":
+                    zip_code = (ws[char + str(row)].value[1:])
+                    ws[char + str(row)].value = zip_code
+                
+                ws[char + str(row)].fill = highlight_amber
+
+        for col in range(41, 42):
+            char = get_column_letter(col)
+            if ws[char + str(row)].value != None:
+                if ws[char + str(row)].value[0] == "'":
+                    zip_code = (ws[char + str(row)].value[1:])
+                    ws[char + str(row)].value = zip_code
+                
+                ws[char + str(row)].fill = highlight_amber
 
 
 '''
@@ -106,6 +128,7 @@ def main():
             print("-> Modifying File...")
             orderInfo(ws)
             formatDate(ws)
+            formatZip(ws)
             insertRows(ws)
 
             try:
@@ -114,7 +137,7 @@ def main():
 
             except WorkbookAlreadySaved as e:
                 print("Workbook Already Saved\n")
-
+ 
         except:
             print("\nERROR: Failed to load Excel File! Make sure the filename/filepath is correct. \n")
 

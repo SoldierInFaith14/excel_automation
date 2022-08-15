@@ -1,2 +1,6 @@
 *.xlsx
 *.DS_Store
+*.spec
+__pycache__/
+build/
+dist/
